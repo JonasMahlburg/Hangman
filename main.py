@@ -1,6 +1,7 @@
 import random
 from wordlists import wordlist
 from stages import stages
+from leaderboard import board
 
 
 def display_hangman(remaining_lives):
@@ -26,9 +27,9 @@ def draw(word, guessed_letters):
 
 def game_loop(word):
     guessed_letters = []
-    remaining_lives = 0
+    remaining_lives = 6
 
-    while remaining_lives <= 6:
+    while remaining_lives > 0:
         display_hangman(remaining_lives)
         draw(word, guessed_letters)
         letter = input("Bitte trage einen Buchstaben ein: ").lower()
@@ -40,12 +41,19 @@ def game_loop(word):
         guessed_letters.append(letter)
 
         if letter not in word.lower():
-            remaining_lives += 1
-            print(f"Falsch! Du hast noch {remaining_lives} Leben.")
+            remaining_lives -= 1
+            print(f"Falsch! Du hast noch {remaining_lives} Versuche.")
 
         # Prüfe, ob alle Buchstaben erraten wurden
         if all(L.lower() in guessed_letters for L in word):
             print(f"Glückwunsch! Du hast das Wort '{word}' erraten.")
+            name = input(f"ich brauche deinen Namen fürs Leaderboard: ")
+            board[name] = remaining_lives
+            print(f"Leaderboard")
+
+            for name, score in board.items():
+                print(f"{name}: {score}")
+
             break
     else:
         print(f"Game over! Das Wort war: {word}")

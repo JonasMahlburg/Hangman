@@ -1,0 +1,3 @@
+board = {
+    "Larry" : 6
+}

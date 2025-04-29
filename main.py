@@ -1,7 +1,9 @@
 import random
+import json
 from wordlists import wordlist
 from stages import stages
-from leaderboard import board
+
+
 
 
 def display_hangman(remaining_lives):
@@ -29,6 +31,9 @@ def game_loop(word):
     guessed_letters = []
     remaining_lives = 6
 
+    with open("leaderboard.json", "r") as file:
+        board = json.load(file)
+
     while remaining_lives > 0:
         display_hangman(remaining_lives)
         draw(word, guessed_letters)
@@ -49,6 +54,9 @@ def game_loop(word):
             print(f"Glückwunsch! Du hast das Wort '{word}' erraten.")
             name = input(f"ich brauche deinen Namen fürs Leaderboard: ")
             board[name] = remaining_lives
+
+            with open("leaderboard.json", "w") as file:
+                json.dump(board, file, indent=4)
             print(f"Leaderboard")
 
             for name, score in board.items():

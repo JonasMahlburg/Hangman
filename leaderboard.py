@@ -1,3 +1,0 @@
-board = {
-    "Larry" : 6
-}

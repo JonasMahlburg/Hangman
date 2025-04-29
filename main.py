@@ -1,9 +1,77 @@
 import random
 
-wordlist = ['Apple', 'Windows', 'Backend', 'Frontend', 'Python']
+wordlist = ["apple", "windows", "backend", "frontend", "python"]
+
+wordlistCas = ["haus", "auto", "erdbeere", "hund", "katze"]
 
 
-
+def display_hangman(remaining_lives):
+    stages = [
+        """
+           -----
+           |   |
+               |
+               |
+               |
+               |
+        =========
+        """,
+        """
+           -----
+           |   |
+           O   |
+               |
+               |
+               |
+        =========
+        """,
+        """
+           -----
+           |   |
+           O   |
+           |   |
+               |
+               |
+        =========
+        """,
+        """
+           -----
+           |   |
+           O   |
+          /|   |
+               |
+               |
+        =========
+        """,
+        """
+           -----
+           |   |
+           O   |
+          /|\\  |
+               |
+               |
+        =========
+        """,
+        """
+           -----
+           |   |
+           O   |
+          /|\\  |
+          /    |
+               |
+        =========
+        """,
+        """
+           -----
+           |   |
+           O   |
+          /|\\  |
+          / \\  |
+               |
+        =========
+        """
+    ]
+    print(stages[remaining_lives])
 
 
 def get_random_word(wordlist):
@@ -25,9 +93,10 @@ def draw(word, guessed_letters):
 
 def game_loop(word):
     guessed_letters = []
-    remaining_lives = 6
+    remaining_lives = 0
 
-    while remaining_lives > 0:
+    while remaining_lives <= 6:
+        display_hangman(remaining_lives)
         draw(word, guessed_letters)
         letter = input("Bitte trage einen Buchstaben ein: ").lower()
 
@@ -38,11 +107,11 @@ def game_loop(word):
         guessed_letters.append(letter)
 
         if letter not in word.lower():
-            remaining_lives -= 1
+            remaining_lives += 1
             print(f"Falsch! Du hast noch {remaining_lives} Leben.")
-        
+
         # Prüfe, ob alle Buchstaben erraten wurden
-        if all(l.lower() in guessed_letters for l in word):
+        if all(L.lower() in guessed_letters for L in word):
             print(f"Glückwunsch! Du hast das Wort '{word}' erraten.")
             break
     else:
@@ -50,6 +119,6 @@ def game_loop(word):
 
 
 word = get_random_word(wordlist)
-print("Willkommen zu Hangman")
+print("Willkommen zu Developer-Hangman")
 
 game_loop(word)

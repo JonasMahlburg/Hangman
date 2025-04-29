@@ -1,76 +1,9 @@
 import random
-
-wordlist = ["apple", "windows", "backend", "frontend", "python"]
-
-wordlistCas = ["haus", "auto", "erdbeere", "hund", "katze"]
+from wordlists import wordlist
+from stages import stages
 
 
 def display_hangman(remaining_lives):
-    stages = [
-        """
-           -----
-           |   |
-               |
-               |
-               |
-               |
-        =========
-        """,
-        """
-           -----
-           |   |
-           O   |
-               |
-               |
-               |
-        =========
-        """,
-        """
-           -----
-           |   |
-           O   |
-           |   |
-               |
-               |
-        =========
-        """,
-        """
-           -----
-           |   |
-           O   |
-          /|   |
-               |
-               |
-        =========
-        """,
-        """
-           -----
-           |   |
-           O   |
-          /|\\  |
-               |
-               |
-        =========
-        """,
-        """
-           -----
-           |   |
-           O   |
-          /|\\  |
-          /    |
-               |
-        =========
-        """,
-        """
-           -----
-           |   |
-           O   |
-          /|\\  |
-          / \\  |
-               |
-        =========
-        """
-    ]
     print(stages[remaining_lives])
 
 
@@ -116,6 +49,12 @@ def game_loop(word):
             break
     else:
         print(f"Game over! Das Wort war: {word}")
+        decision = input("möchtest du es nocheinmal probieren? [y/n]: ")
+
+        if decision == "y":
+            new_word = get_random_word(wordlist)
+            print("Willkommen zu Developer-Hangman")
+            game_loop(new_word)
 
 
 word = get_random_word(wordlist)

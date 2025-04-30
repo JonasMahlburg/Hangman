@@ -4,8 +4,6 @@ from wordlists import wordlist
 from stages import stages
 
 
-
-
 def display_hangman(remaining_lives):
     print(stages[remaining_lives])
 
@@ -33,6 +31,8 @@ def game_loop(word):
 
     with open("leaderboard.json", "r") as file:
         board = json.load(file)
+    # sorted_board = sorted(board)
+    print(board)
 
     while remaining_lives > 0:
         display_hangman(remaining_lives)
@@ -52,15 +52,18 @@ def game_loop(word):
         # Prüfe, ob alle Buchstaben erraten wurden
         if all(L.lower() in guessed_letters for L in word):
             print(f"Glückwunsch! Du hast das Wort '{word}' erraten.")
-            name = input(f"ich brauche deinen Namen fürs Leaderboard: ")
+            name = input("ich brauche deinen Namen fürs Leaderboard: ")
             board[name] = remaining_lives
 
             with open("leaderboard.json", "w") as file:
                 json.dump(board, file, indent=4)
-            print(f"Leaderboard")
+          
 
-            for name, score in board.items():
-                print(f"{name}: {score}")
+            print("\nLeaderboard:")
+            sorted_board = sorted(board.items(), key=lambda x: x[1], reverse=True)
+            for i, (name, score) in enumerate(sorted_board, start=1):
+                print(f"{i}. {name}: {score}")
+
 
             break
     else:
